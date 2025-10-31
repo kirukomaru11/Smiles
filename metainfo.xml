@@ -1,0 +1,65 @@
+<?xml version='1.0' encoding='utf-8'?>
+<component type="desktop-application">
+    <id>io.github.kirukomaru11.Smiles</id>
+    <developer id="io.github.kirukomaru11">
+        <name>きるこ丸11号</name>
+    </developer>
+    <name>Smiles</name>
+    <summary>Meme gallery with tagging</summary>
+    <description>
+        <p>Smiles allows you to tag your memes for finding them quickly when necessary, optionally also working as a URL launcher</p>
+        <p>Some features:</p>
+        <ul>
+          <li>Hover to play a video, or right-click it to play</li>
+          <li>Hover to unmute videos</li>
+          <li>Tagging and hiding individual files</li>
+          <li>Add a URL to launch when clicking</li>
+          <li>File color themeing</li>
+          <li>Drop to add files</li>
+          <li>Drag files from inside the app to other apps (such as uploads)</li>
+          <li>Sorting by random, alphabetical order, or date order</li>
+        </ul>
+    </description>
+    <branding>
+        <color type="primary" scheme_preference="light">#f6d32d</color>
+        <color type="primary" scheme_preference="dark">#e5a50a</color>
+    </branding>
+    <supports>
+        <control>pointing</control>
+        <control>keyboard</control>
+        <control>touch</control>
+    </supports>
+    <launchable type="desktop-id">io.github.kirukomaru11.Smiles.desktop</launchable>
+    <icon type="stock">io.github.kirukomaru11.Smiles</icon>
+    <categories>
+        <category>AudioVideo</category>
+        <category>Graphics</category>
+        <category>Video</category>
+    </categories>
+    <keywords>
+      <keyword>GTK</keyword>
+      <keyword>GNOME</keyword>
+      <keyword>Memes</keyword>
+      <keyword>Gallery</keyword>
+      <keyword>URL</keyword>
+      <keyword>Tags</keyword>
+    </keywords>
+    <provides>
+        <binary>smiles</binary>
+    </provides>
+    <content_rating type="oars-1.1" />
+    <metadata_license>MIT</metadata_license>
+    <project_license>MIT</project_license>
+    <url type="bugtracker">https://github.com/kirukomaru11/Smiles/issues</url>
+    <url type="homepage">https://github.com/kirukomaru11/Smiles</url>
+    <url type="vcs-browser">https://github.com/kirukomaru11/Smiles</url>
+    <releases>
+        <release version="1.0" date="2025-10-31">
+            <description>
+                <ul>
+                    <li>First release</li>
+                </ul>
+            </description>
+        </release>
+    </releases>
+</component>

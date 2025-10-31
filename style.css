@@ -1,0 +1,42 @@
+/* Entry */
+picture { border-radius: 13px; }
+
+/* Catalog */
+masonrybox view { border-spacing: 10px; margin: 10px; }
+masonrybox view > column { border-spacing: 10px; }
+masonrybox revealer button { margin: 6px; }
+
+/* Colors */
+sheet,
+toastoverlay {
+  transition-property: background;
+  transition-duration: 250ms;
+  transition-timing-function: ease;
+}
+.colored {
+  --scrollbar-outline-color: rgb(0 0 0 / 25%);
+  --accent-color: var(--color-1);
+  --accent-bg-color: var(--color-1);
+  --popover-bg-color: color-mix(in srgb, var(--color-2), var(--window-bg-color) 60%);
+  --card-bg-color: rgb(255 255 255 / 4%);
+}
+.colored sheet,
+.colored toastoverlay {
+  background: linear-gradient(
+      to bottom right,
+      color-mix(in srgb, var(--color-1) 45%, transparent),
+      transparent
+    ),
+    linear-gradient(
+      to bottom left,
+      color-mix(in srgb, var(--color-2) 45%, transparent),
+      transparent
+    ),
+    linear-gradient(
+      to top,
+      color-mix(in srgb, var(--color-3) 45%, transparent),
+      transparent
+    ),
+    var(--window-bg-color);
+}
+row.destructive-action { background: color-mix(in srgb, var(--destructive-bg-color) 15%, transparent); }
