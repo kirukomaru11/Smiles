@@ -39,4 +39,7 @@ toastoverlay {
     ),
     var(--window-bg-color);
 }
-row.destructive-action { background: color-mix(in srgb, var(--destructive-bg-color) 15%, transparent); }
+row.destructive-action { 
+  background: var(--destructive-bg-color);
+  color: white;
+}
