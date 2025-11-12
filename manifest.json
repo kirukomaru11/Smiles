@@ -6,29 +6,17 @@
   "command" : "smiles",
   "modules" : [
     {
-      "name" : "some-modules",
+      "name" : "AppUtils",
       "buildsystem" : "simple",
       "sources" : [
         {
-          "url" : "https://gist.githubusercontent.com/kirukomaru11/c80dab8349bec7e6ed1bcd2ac5baf9db/raw/d8cf28da3616f780537934fa81bdbfbf1d1594b4/MasonryBox.py",
-          "sha256" : "e83a5122eb92783daa434e78e8cf8e0281bd5a9e0820683e40ca1ec526822e44",
-          "type" : "file"
-        },
-        {
-          "url" : "https://gist.githubusercontent.com/kirukomaru11/e58d203f4adba959af079b475d76217e/raw/3ca8d68873653dcff415da7f1ce5d1377a3651fa/TagRow.py",
-          "sha256" : "880a28747e2fc943b30d5f2708a0b6804dc9643cb826d06eecb3dfc210b3afd0",
-          "type" : "file"
-        },
-        {
-          "url" : "https://gist.githubusercontent.com/kirukomaru11/88ebd27b730120bf4b770647ebd26a7a/raw/32fa5ef892ade643ff9f2ef7d2887e95c54c42b5/PaintableColorThief.py",
-          "sha256" : "d22bfbfeef6646e5696a8039b44521ec5ffce210c325b4308216c3c50f6af725",
-          "type" : "file"
+          "type" : "git",
+          "url" : "https://github.com/kirukomaru11/AppUtils.git",
+          "branch": "main"
         }
       ],
       "build-commands" : [
-        "install -D MasonryBox.py /app/lib/python3.13/site-packages/MasonryBox.py",
-        "install -D TagRow.py /app/lib/python3.13/site-packages/TagRow.py",
-        "install -D PaintableColorThief.py /app/lib/python3.13/site-packages/PaintableColorThief.py"
+        "install -D AppUtils.py /app/lib/python3.13/site-packages/AppUtils.py"
       ]
     },
     {
@@ -45,7 +33,6 @@
         "appstreamcli make-desktop-file metainfo.xml $FLATPAK_ID.desktop && install -D $FLATPAK_ID.desktop /app/share/applications/$FLATPAK_ID.desktop",
         "install -D metainfo.xml /app/share/metainfo/$FLATPAK_ID.metainfo.xml",
         "install -D app.svg /app/share/icons/hicolor/scalable/apps/$FLATPAK_ID.svg && install -D app-symbolic.svg /app/share/icons/hicolor/symbolic/apps/$FLATPAK_ID-symbolic.svg",
-        "install -D style.css /app/share/$FLATPAK_ID/style.css",
         "install -D month-symbolic.svg /app/share/$FLATPAK_ID/month-symbolic.svg"
       ]
     }
