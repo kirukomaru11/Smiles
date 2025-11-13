@@ -21,21 +21,9 @@ toastoverlay {
 }
 .colored sheet,
 .colored toastoverlay {
-  background: linear-gradient(
-      to bottom right,
-      color-mix(in srgb, var(--color-1) 45%, transparent),
-      transparent
-    ),
-    linear-gradient(
-      to bottom left,
-      color-mix(in srgb, var(--color-2) 45%, transparent),
-      transparent
-    ),
-    linear-gradient(
-      to top,
-      color-mix(in srgb, var(--color-3) 45%, transparent),
-      transparent
-    ),
+  background: linear-gradient(to bottom right, color-mix(in srgb, var(--color-1) 45%, transparent), transparent),
+    linear-gradient(to bottom left, color-mix(in srgb, var(--color-2) 45%, transparent), transparent),
+    linear-gradient( to top, color-mix(in srgb, var(--color-3) 45%, transparent), transparent),
     var(--window-bg-color);
 }
 """
@@ -47,7 +35,9 @@ finish_func = lambda p, pp: setattr(p.file, "colors", palette(pp, distance=0.6, 
 def shutdown(*_):
     if app.lookup_action("clear-unused").get_state().unpack():
         for i in tuple(i for i in app.data["Entries"]):
-            if not os.path.exists(app.data_folder.get_child(i).peek_path()): del app.data["Entries"][i]
+            if not os.path.exists(app.data_folder.get_child(i).peek_path()):
+                print("Removing", i)
+                del app.data["Entries"][i]
         for f in os.listdir(cache_dir.peek_path()):
             if not tuple(i for i in app.all_files if f"{app.data_folder.get_relative_path(i)}".replace(GLib.DIR_SEPARATOR_S, "_") + ".webp" == f): cache_dir.get_child(f).delete()
     data_save()
@@ -267,9 +257,9 @@ def f_info(d):
         if os.path.isdir(f.peek_path()): f_info(f)
         if not tuple(it for it in app.all_files if it.equal(f)): app.all_files.append(f)
         if not Gio.content_type_guess(i)[0].startswith(("video", "image")):  continue
-        if not app.data_folder.get_relative_path(f) in app.data["Entries"]:
-            app.data["Entries"][app.data_folder.get_relative_path(f)] = {"Date": int(os.path.getmtime(f.peek_path())), "Hidden": False, "URL": "", "Tags": []}
-            Toast(f"{f.get_basename()} added", timeout=2)
+        if not app.data_folder.get_relative_path(f) in app.data["Entries"]: Toast(f"{f.get_basename()} added", timeout=2)
+        app.data["Entries"].setdefault(app.data_folder.get_relative_path(f), {})
+        for k, v in {"Date": int(os.path.getmtime(f.peek_path())), "Hidden": False, "URL": "", "Tags": []}.items(): app.data["Entries"][app.data_folder.get_relative_path(f)].setdefault(k, v)
     if not tuple(it for it in app.all_files if it.equal(d)): app.all_files.append(d)
 f_info(app.data_folder)
 GLib.idle_add(do_search)
