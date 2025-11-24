@@ -3,7 +3,7 @@ from shutil import copytree
 
 from AppUtils import *
 
-css = """
+style = """
 masonrybox revealer button { margin: 6px; }
 
 sheet,
@@ -30,7 +30,7 @@ toastoverlay {
 
 sorts = ("Random", "Alphabetical Ascending", "Alphabetical Descending", "Date Ascending", "Date Descending")
 date_sort = lambda e: app.data["Entries"][app.data_folder.get_relative_path(e)]["Date"]
-finish_func = lambda p, pp: setattr(p.file, "colors", palette(pp, distance=0.6, black_white=1.0))
+finish_func = lambda p, pp: setattr(p.file, "colors", palette(pp, distance=60, black_white=100))
 
 def shutdown(*_):
     if app.lookup_action("clear-unused").get_state().unpack():
@@ -46,7 +46,7 @@ def shutdown(*_):
 app = App(shortcuts={"General": (("Fullscreen", "app.fullscreen"), ("Search", "app.search"), ("Open Current Folder", "app.open"), ("Paste Image/Files/Folder", "<primary>v"), ("Toggle Hidden", "app.hidden"), ("Keyboard Shortcuts", "app.shortcuts"))},
           shutdown=shutdown,
           application_id="io.github.kirukomaru11.Smiles",
-          style=css,
+          style=style,
           data={
             "Window": { "default-height": 600, "default-width": 600, "maximized": False },
             "View": { "show-hidden": False, "hover": True, "sort": sorts[0], "colors": True },
