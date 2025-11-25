@@ -30,7 +30,6 @@ toastoverlay {
 
 sorts = ("Random", "Alphabetical Ascending", "Alphabetical Descending", "Date Ascending", "Date Descending")
 date_sort = lambda e: app.data["Entries"][app.data_folder.get_relative_path(e)]["Date"]
-finish_func = lambda p, pp: setattr(p.file, "colors", palette(pp, distance=60, black_white=100))
 
 def shutdown(*_):
     if app.lookup_action("clear-unused").get_state().unpack():
@@ -56,6 +55,7 @@ app = App(shortcuts={"General": (("Fullscreen", "app.fullscreen"), ("Search", "a
 app.all_files, app.modifying = [], False
 Action("open-folder", lambda *_: launch(app.data_folder), "<primary>o")
 cache_dir = Gio.File.new_for_path(os.path.join(GLib.get_user_cache_dir(), app.name.lower()))
+app.finish_func = lambda p, pp: setattr(p.file, "colors", palette(pp, distance=60, black_white=100))
 
 def set_file(file):
     app.modifying = True
@@ -83,7 +83,7 @@ def entry_enter(e, *_, load=False):
 def do_search(*_):
     if app.modifying: return
     catalog.page, catalog.end = 0, False
-    catalog.remove_all()
+    masonrybox_remove_all(catalog)
     catalog.get_next_sibling().set_visible(False)
     fs = tuple(i for i in app.all_files if app.data_folder.get_relative_path(i) in app.data["Entries"])
     if not fs: return catalog.get_next_sibling().set_properties(title="Add an Entry", icon_name="document-new-symbolic", visible=True)
@@ -97,7 +97,7 @@ def do_search(*_):
     catalog.c.sort(key=alphabetical_sort if "Alphabetical" in s else date_sort if "Date" in s else random_sort, reverse="Descending" in s)
     catalog_load_more(catalog.get_child(), Gtk.PositionType.BOTTOM)
 def load_thumbnail(source, result, data):
-    app.thread.submit(load_image, data[0], data[1], None, finish_func)
+    app.thread.submit(load_media, data[0], data[1], None)
 def catalog_load_more(scrolledwindow, position):
     if position == Gtk.PositionType.BOTTOM and not catalog.end:
         catalog.end = True
@@ -105,17 +105,17 @@ def catalog_load_more(scrolledwindow, position):
         pages = tuple(catalog.c[i:i + 30] for i in range(0, len(catalog.c), 30))
         if not catalog.page > len(pages):
             for file in pages[catalog.page - 1]:
-                if file.peek_path() in catalog.h: GLib.idle_add(catalog.add, catalog.h[file.peek_path()])
+                if file.peek_path() in catalog.h: GLib.idle_add(masonrybox_add, *(catalog, catalog.h[file.peek_path()]))
                 else:
                     f = file if Gio.content_type_guess(file.get_basename())[0].startswith("image") else cache_dir.get_child(app.data_folder.get_relative_path(file).replace(GLib.DIR_SEPARATOR_S, "_") + ".webp")
                     if os.path.exists(f.peek_path()):
-                        entry = Media(f.get_uri(), finish_func=finish_func)
+                        entry = Media(f.get_uri(), controls=False)
                     else:
                         entry = Gtk.Picture()
                         generate_thumbnail(file, f, load_thumbnail, (entry, f))
                     entry.file = file
                     catalog.h[file.peek_path()] = entry
-                    GLib.idle_add(catalog.add, entry)
+                    GLib.idle_add(masonrybox_add, *(catalog, entry))
                     entry.event = Gtk.EventControllerMotion()
                     entry.event.connect("enter", entry_enter)
                     GLib.idle_add(entry.add_controller, entry.event)
